@@ -2,6 +2,8 @@
 
 ## Data
 
+### Import 
+
 Load the dataset, add column names, convert class index to string and remove observation index
 
 ```R
@@ -16,6 +18,8 @@ data = data[, -2]
 data = data %>% select(-Cl,Cl)
 data$Cl <- as.factor(data$Cl)
 ```
+### Outliers
+
 Create boxplot for each available class, find possible outliers and store their index
 
 ```R
