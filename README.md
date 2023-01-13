@@ -66,3 +66,16 @@ barplot(table(no_outliers$Cl),
         las=2,
         col=rgb(0.2,0.4,0.6,0.6))
 ```
+
+### Feature scaling and plots
+
+```R
+scaled <- as.data.frame(scale(data[1:14]))
+scaled$Cl <- data$Cl
+scaled_shape <-scaled[1:7]
+scaled_shape$Cl <-scaled$Cl
+scaled_texture <-scaled[8:15]
+plot(scaled_shape)
+plot(scaled_texture)
+```
+
