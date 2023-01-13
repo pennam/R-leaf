@@ -46,3 +46,23 @@ for(i in unique(input$Cl)) {
 }
 out_ind <-unique(out_ind)
 ```
+
+### Filter and Barplots
+
+Remove outliers from the original dataset and create barplots of Class count distribution
+
+```R
+no_outliers <- filter(data, !row_number() %in% c(out_ind))
+barplot(table(data$Cl),
+        ylab="Count",
+        ylim = c(0, 18),
+        main = "Class Distribution: Original",
+        las=2,
+        col=rgb(0.2,0.4,0.6,0.6))
+barplot(table(no_outliers$Cl),
+        ylab="count",
+        ylim = c(0, 18),
+        main = "Class Distribution: No outliers",
+        las=2,
+        col=rgb(0.2,0.4,0.6,0.6))
+```
