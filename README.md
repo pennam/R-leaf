@@ -79,3 +79,13 @@ plot(scaled_shape)
 plot(scaled_texture)
 ```
 
+### Corrplot
+
+Compute correlation matrix to identify and remove features with low correlation repect to what we want to predict (Class) and high correlation with other features
+
+```R
+input <- data
+input['Cl'] <- as.numeric(input$Cl)
+corr <- cor(input)
+corrplot(corr, method="color", addCoef.col = "black")
+```
