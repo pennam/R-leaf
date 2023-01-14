@@ -136,4 +136,11 @@ train_list_upsample <- setNames(train_list_upsample, train_name_upsample)
 
 # Append upsampled data to our list
 train_list <- append(train_list, train_list_upsample)
+
+# Plot upsampled class distribution
+barplot(table(train_list_upsample[[2]]$Cl),
+        col=rgb(0.2,0.4,0.6,0.6),
+        ylim = c(0, 20),
+        main = "Upsampled Class Distribution",
+        las=2)
 ```
