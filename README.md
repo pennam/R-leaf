@@ -135,7 +135,7 @@ Plot observations count for each class
 barplot(table(train_scaled$Cl),
         col=rgb(0.2,0.4,0.6,0.6),
         ylim = c(0, 20),
-        main = "Original Class Distribution",
+        main = "Class Distribution: Original",
         las=2)
 ```
 
@@ -159,6 +159,6 @@ train_list <- append(train_list, train_list_upsample)
 barplot(table(train_list_upsample[[2]]$Cl),
         col=rgb(0.2,0.4,0.6,0.6),
         ylim = c(0, 20),
-        main = "Upsampled Class Distribution",
+        main = "Class Distribution: Upsampled",
         las=2)
 ```
