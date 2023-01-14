@@ -77,6 +77,7 @@ scaled_shape <-scaled[1:7]
 scaled_shape$Cl <-scaled$Cl
 scaled_texture <-scaled[8:15]
 plot(scaled_shape)
+readline(prompt="Press [enter] to proceed")
 plot(scaled_texture)
 ```
 
