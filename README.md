@@ -97,3 +97,26 @@ Remove less relevant features from the dataset
 ```R
 reduced <- subset(scaled, select = -c(Lo,Tm,En,Ac))
 ```
+
+### Data split
+
+Split "original" "scaled" and "reduced" dataset into train and test with a static division 70/30
+
+```R
+set.seed(4)
+split <- createDataPartition(scaled$Cl, p = 0.7, list = FALSE)
+
+train_data <- data[split,]
+train_scaled <- scaled[split,]
+train_reduced <- reduced[split,]
+train_name <- c("original","scaled","reduced")
+train_list <- list(train_data, train_scaled, train_reduced)
+train_list <- setNames(train_list, train_name)
+
+test_data <- data[-split,]
+test_scaled <- scaled[-split,]
+test_reduced <- reduced[-split,]
+test_name <- c("original","scaled","reduced","original","scaled","reduced")
+test_list <- list(test_data, test_scaled, test_reduced, test_data, test_scaled, test_reduced)
+test_list <- setNames(test_list, test_name)
+```
