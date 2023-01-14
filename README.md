@@ -162,3 +162,43 @@ barplot(table(train_list_upsample[[2]]$Cl),
         main = "Class Distribution: Upsampled",
         las=2)
 ```
+
+### Train and predict
+
+```R
+model_list <- list()
+cm_list <- list()
+model_name <- c("nb", "rpart","knn","svmRadial","rf")
+for(i in model_name) {
+  print(sprintf("Model: %s",i))
+  for(k in seq_along(train_list)) {
+    print(sprintf("Train set %s",names(train_list[k])))
+    input <- train_list[k]
+    model <- train(Cl~., train_list[[k]], method=i)
+    model_list <- append(model_list, list(model))
+    print(model$results)
+    print(sprintf("Test set %s",names(test_list[k])))
+    predicted <- predict(model,test_list[[k]])
+    cm <- confusionMatrix(predicted, test_list[[k]]$Cl)
+    cm_list <- append(cm_list, list(cm))
+    print(cm$overall['Accuracy'])
+  }
+}
+
+out_model_name <- c("nb o",   "nb s",   "nb r",
+                    "nb o up","nb s up","nb r up",
+                    "rt o",   "rt s",   "rt r",
+                    "rt o up","rt s up","rt r up",
+                    "kn o",   "kn s" ,  "kn r",
+                    "kn o up","kn s up","kn r up",
+                    "sv o",   "sv s",   "sv r",
+                    "sv o up","sv s up","sv r up",
+                    "rf o",   "rf s",   "rf r",                        
+                    "rf o up","rf s up","rf r up")
+                    
+model_list <- setNames(model_list, out_model_name)
+cm_list <- setNames(cm_list, out_model_name)
+
+model_results <- resamples(model_list)
+summary(model_results)
+```
