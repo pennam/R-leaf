@@ -98,6 +98,10 @@ Remove less relevant features from the dataset
 
 ```R
 reduced <- subset(scaled, select = -c(Lo,Tm,En,Ac))
+input <- reduced
+input['Cl'] <- as.numeric(input$Cl)
+corr <- cor(input)
+corrplot(corr, method="color", addCoef.col = "black")
 ```
 
 ### Data split
