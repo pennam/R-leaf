@@ -121,6 +121,18 @@ test_list <- list(test_data, test_scaled, test_reduced, test_data, test_scaled, 
 test_list <- setNames(test_list, test_name)
 ```
 
+### Class distribution
+
+Plot observations count for each class
+
+```R
+barplot(table(train_scaled$Cl),
+        col=rgb(0.2,0.4,0.6,0.6),
+        ylim = c(0, 20),
+        main = "Original Class Distribution",
+        las=2)
+```
+
 ### Balancing training dataset - Upsampling
 
 ```R
