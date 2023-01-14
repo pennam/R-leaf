@@ -59,6 +59,7 @@ barplot(table(data$Cl),
         main = "Class Distribution: Original",
         las=2,
         col=rgb(0.2,0.4,0.6,0.6))
+readline(prompt="Press [enter] to proceed")
 barplot(table(no_outliers$Cl),
         ylab="count",
         ylim = c(0, 18),
