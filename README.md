@@ -120,3 +120,20 @@ test_name <- c("original","scaled","reduced","original","scaled","reduced")
 test_list <- list(test_data, test_scaled, test_reduced, test_data, test_scaled, test_reduced)
 test_list <- setNames(test_list, test_name)
 ```
+
+### Balancing training dataset - Upsampling
+
+```R
+train_list_upsample <- list()
+for(k in train_list) {
+    set.seed(4)
+    train_data_up <- upSample(k[,-ncol(k)], k$Cl, yname = "Cl")
+    train_list_upsample <-append(train_list_upsample, list(train_data_up))
+    table(train_data_up$Cl)
+}
+train_name_upsample <- c("original up","scaled up","reduced up")
+train_list_upsample <- setNames(train_list_upsample, train_name_upsample)
+
+# Append upsampled data to our list
+train_list <- append(train_list, train_list_upsample)
+```
