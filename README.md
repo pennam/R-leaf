@@ -200,3 +200,52 @@ cm_list <- setNames(cm_list, out_model_name)
 model_results <- resamples(model_list)
 summary(model_results)
 ```
+### k-folds CV ROC and AUC
+
+```R
+require(multiROC)
+require(ggplot2)
+for(k in seq_along(train_list)) {
+  message(sprintf("Training Random Forest with %s data",names(train_list[k])))
+   
+  #Train best model using k-fold cross validation
+  control <- trainControl(method="cv", number=10)
+  rf_res = train(Cl~ ., train_list[[k]], method="rf", trControl=control)
+  message(sprintf("Model Accuracy: %f",max(rf_res$results["Accuracy"])))
+  rf_pred = predict(rf_res, test_list[[k]], type = 'prob')
+
+  rf_pred <- data.frame(rf_pred)
+  colnames(rf_pred) = c("1",   "2",  "3",  "4",  "5",  "6",  "7",  "8",  "9", "10",
+                        "11", "12", "13", "14", "15", "22", "23", "24", "25", "26",
+                        "27", "28", "29", "30", "31", "32", "33", "34", "35", "36")
+  colnames(rf_pred) <- paste(colnames(rf_pred), "_pred_RF")
+
+  true_label <- dummies::dummy(test_list[[k]]$Cl, sep = ".")
+  true_label <- data.frame(true_label)
+  colnames(true_label) <- gsub(".*?\\.", "", colnames(true_label))
+  colnames(true_label) <- paste(colnames(true_label), "_true")
+  final_df <- cbind(true_label, rf_pred)
+
+  roc_res <- multi_roc(final_df, force_diag=T)
+  plot_roc_df <- plot_roc_data(roc_res)
+  #print(unlist(roc_res$AUC))
+
+  print(ggplot(plot_roc_df, aes(x = 1-Specificity, y=Sensitivity)) +
+  geom_path(aes(color = Group, linetype=Method), size=0.9) +
+  geom_segment(aes(x = 0, y = 0, xend = 1, yend = 1), 
+                   colour='grey', linetype = 'dotdash') +
+  theme_bw() + 
+  theme(plot.title = element_text(hjust = 0.5), 
+        legend.justification=c(1, 0), legend.position=c(.95, .05),
+        legend.title=element_blank(), 
+        legend.background = element_rect(fill=NULL, size=0.5, 
+                                         linetype="solid", colour ="black")))
+
+  #Verify predictions of models
+  rf_pred = predict(rf_res, test_list[[k]])
+  cm <- confusionMatrix(rf_pred, test_list[[k]]$Cl)
+  message(sprintf("Test Accuracy: %f", cm$overall['Accuracy']))
+  readline(prompt="Press [enter] to proceed")
+}
+```
+
