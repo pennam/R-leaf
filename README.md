@@ -170,18 +170,16 @@ model_list <- list()
 cm_list <- list()
 model_name <- c("nb", "rpart","knn","svmRadial","rf")
 for(i in model_name) {
-  print(sprintf("Model: %s",i))
   for(k in seq_along(train_list)) {
-    print(sprintf("Train set %s",names(train_list[k])))
+    message(sprintf("Training model %s with %s data",i,names(train_list[k])))
     input <- train_list[k]
     model <- train(Cl~., train_list[[k]], method=i)
     model_list <- append(model_list, list(model))
-    print(model$results)
-    print(sprintf("Test set %s",names(test_list[k])))
+    message(sprintf("Model Accuracy: %f",max(model_list[[k]]$results["Accuracy"])))
     predicted <- predict(model,test_list[[k]])
     cm <- confusionMatrix(predicted, test_list[[k]]$Cl)
     cm_list <- append(cm_list, list(cm))
-    print(cm$overall['Accuracy'])
+    message(sprintf("Test Accuracy: %f", cm$overall['Accuracy']))
   }
 }
 
