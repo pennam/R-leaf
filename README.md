@@ -175,7 +175,7 @@ for(i in model_name) {
     input <- train_list[k]
     model <- train(Cl~., train_list[[k]], method=i)
     model_list <- append(model_list, list(model))
-    message(sprintf("Model Accuracy: %f",max(model_list[[k]]$results["Accuracy"])))
+    message(sprintf("Model Accuracy: %f",max(model$results["Accuracy"])))
     predicted <- predict(model,test_list[[k]])
     cm <- confusionMatrix(predicted, test_list[[k]]$Cl)
     cm_list <- append(cm_list, list(cm))
